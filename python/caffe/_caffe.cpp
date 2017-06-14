@@ -228,6 +228,7 @@ BOOST_PYTHON_MODULE(_caffe) {
     .def("_set_input_arrays", &Net_SetInputArrays,
         bp::with_custodian_and_ward<1, 2, bp::with_custodian_and_ward<1, 3> >())
     .def("save", &Net_Save);
+  bp::register_ptr_to_python<shared_ptr<Net<Dtype> > >();//hf
 
   bp::class_<Blob<Dtype>, shared_ptr<Blob<Dtype> >, boost::noncopyable>(
     "Blob", bp::no_init)
@@ -242,6 +243,7 @@ BOOST_PYTHON_MODULE(_caffe) {
           NdarrayCallPolicies()))
     .add_property("diff",     bp::make_function(&Blob<Dtype>::mutable_cpu_diff,
           NdarrayCallPolicies()));
+  bp::register_ptr_to_python<shared_ptr<Blob<Dtype> > >();//hf
 
   bp::class_<Layer<Dtype>, shared_ptr<PythonLayer<Dtype> >,
     boost::noncopyable>("Layer", bp::init<const LayerParameter&>())
@@ -253,7 +255,7 @@ BOOST_PYTHON_MODULE(_caffe) {
   bp::register_ptr_to_python<shared_ptr<Layer<Dtype> > >();
 
   bp::class_<LayerParameter>("LayerParameter", bp::no_init);
-
+  
   bp::class_<Solver<Dtype>, shared_ptr<Solver<Dtype> >, boost::noncopyable>(
     "Solver", bp::no_init)
     .add_property("net", &Solver<Dtype>::net)
@@ -264,6 +266,7 @@ BOOST_PYTHON_MODULE(_caffe) {
           &Solver<Dtype>::Solve), SolveOverloads())
     .def("step", &Solver<Dtype>::Step)
     .def("restore", &Solver<Dtype>::Restore);
+bp::register_ptr_to_python<shared_ptr<Solver<Dtype> > >();//hf
 
   bp::class_<SGDSolver<Dtype>, bp::bases<Solver<Dtype> >,
     shared_ptr<SGDSolver<Dtype> >, boost::noncopyable>(
